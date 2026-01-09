@@ -75,7 +75,7 @@ export default function Hero() {
                     </h2>
 
                     <p className="text-gray-400 text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                        Award-winning frontend developer specializing in building
+                        Creative frontend developer specializing in building
                         premium, high-performance web applications with modern technologies.
                     </p>
 

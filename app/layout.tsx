@@ -18,8 +18,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "VISHNU CP | Frontend Developer",
+  title: "VISHNU CP ",
   description: "Premium Portfolio of Vishnu CP - Frontend Developer & UI Designer",
+ 
 };
 
 export default function RootLayout({

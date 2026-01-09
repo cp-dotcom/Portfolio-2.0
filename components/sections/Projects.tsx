@@ -41,7 +41,7 @@ const projects = [
         category: "Full Stack Web App",
         description: "A responsive e-commerce platform with product listing, search, filters, cart functionality, and JSON server backend. Built with React and Tailwind.",
         tech: ["React", "Tailwind", "Redux", "JSON Server"],
-        image: "https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1932&auto=format&fit=crop", // Placeholder
+        image: "/images/chocoluxe.png", // Placeholder
         href: "#",
     },
 ];
