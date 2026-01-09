@@ -53,7 +53,7 @@ export default function Hero() {
             <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none z-0">
             
                 <h1 ref={watermarkRef} className="text-[12rem] md:text-[20rem] font-bold font-display text-white/5 whitespace-nowrap leading-none select-none">
-                    VISHNU CP
+                    VISHNU 
                 </h1>
             </div>
 
