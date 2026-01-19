@@ -102,12 +102,7 @@ export default function Projects() {
                                         <span className="text-sage text-xs font-bold uppercase tracking-wider">{project.category}</span>
                                         <h3 className="text-2xl font-bold font-display mt-1 group-hover:text-white transition-colors">{project.title}</h3>
                                     </div>
-                                    <Link
-                                        href={project.href}
-                                        className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-sage hover:text-black transition-all transform group-hover:rotate-45"
-                                    >
-                                        <ArrowUpRight size={20} />
-                                    </Link>
+                                   
                                 </div>
 
                                 <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
