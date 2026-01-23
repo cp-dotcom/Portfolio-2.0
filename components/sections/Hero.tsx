@@ -6,7 +6,6 @@ import GeometricShapes from "@/components/3d/GeometricShapes";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Box, Code, Globe, Layers, Zap, CheckCircle, CreditCard } from "lucide-react";
-import VisitorStack from "@/components/presence/VisitorStack";
 
 export default function Hero() {
     const containerRef = useRef<HTMLElement>(null);
@@ -34,12 +33,6 @@ export default function Hero() {
                 duration: 1.2,
                 delay: 2.5,
             })
-                .from(".visitor-stack", {
-                    y: 20,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: "power2.out"
-                }, "-=1.5")
                 .from(".float-widget", {
                     scale: 0.8,
                     opacity: 0,
@@ -72,9 +65,6 @@ export default function Hero() {
                 {/* Left: Text Content */}
                 <div className="hero-content space-y-8 text-center lg:text-left">
 
-                    <div className="visitor-stack">
-                        <VisitorStack />
-                    </div>
 
                     <h2 className="text-5xl md:text-7xl font-bold font-display leading-tight ">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-300/10 to-sage">YOUR VISION</span>  <br />
