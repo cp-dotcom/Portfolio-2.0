@@ -58,7 +58,6 @@ const skillIcons = [
 export default function Skills() {
   return (
     <section id="skills" className="relative bg-[#050505] overflow-hidden h-screen flex flex-col">
-      {/* Background Grid Pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.03]"
         style={{
           backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
