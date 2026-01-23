@@ -11,6 +11,7 @@ const VISITORS: any[] = [];
 
 export default function VisitorStack() {
     const [realVisitors, setRealVisitors] = useState<any[]>([]);
+    const [historicalVisitors, setHistoricalVisitors] = useState<any[]>([]);
 
     useEffect(() => {
         const identity = {
@@ -18,6 +19,41 @@ export default function VisitorStack() {
             src: "/images/download-removebg-preview (1).png",
             online_at: new Date().toISOString()
         };
+
+        const fetchHistorical = async () => {
+            if (!supabase) return;
+            try {
+                const { data, error } = await supabase
+                    .from('portfolio_visitors')
+                    .select('name, avatar_url, visited_at')
+                    .neq('name', 'You')
+                    .order('visited_at', { ascending: false })
+                    .limit(10);
+
+                if (data) {
+                    // Deduplicate by name
+                    const unique = data.reduce((acc: any[], current: any) => {
+                        const x = acc.find(item => item.name === current.name);
+                        if (!x) {
+                            return acc.concat([current]);
+                        } else {
+                            return acc;
+                        }
+                    }, []);
+
+                    setHistoricalVisitors(unique.map(v => ({
+                        name: v.name,
+                        src: v.avatar_url,
+                        visited_at: v.visited_at,
+                        is_historical: true
+                    })));
+                }
+            } catch (err) {
+                console.error("Error fetching historical visitors:", err);
+            }
+        };
+
+        fetchHistorical();
 
         // Show self immediately as a fallback
         setRealVisitors([identity]);
@@ -46,14 +82,14 @@ export default function VisitorStack() {
                 });
 
                 // Deduplicate by name, ensuring "You" stays at the front
-                let unique = flattened.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i);
+                let online = flattened.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i);
 
                 // If "You" isn't in the real-time list, add the local identity
-                if (!unique.find(v => v.name === identity.name)) {
-                    unique = [identity, ...unique];
+                if (!online.find(v => v.name === identity.name)) {
+                    online = [identity, ...online];
                 }
 
-                setRealVisitors(unique);
+                setRealVisitors(online);
             })
             .subscribe(async (status) => {
                 if (status === 'SUBSCRIBED') {
@@ -81,11 +117,18 @@ export default function VisitorStack() {
         };
     }, []);
 
+    // Combine and deduplicate
+    const onlineNames = new Set(realVisitors.map(v => v.name));
+    const allVisitors = [
+        ...realVisitors,
+        ...historicalVisitors.filter(v => !onlineNames.has(v.name))
+    ].slice(0, 8); // Show max 8 avatars
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 3 }}
+            transition={{ duration: 0.8, delay: 0.5 }} // Reduced delay
             className="flex flex-col items-center lg:items-start gap-4"
         >
             <div className="flex items-center gap-3">
@@ -96,13 +139,13 @@ export default function VisitorStack() {
 
             <div className="flex items-center">
                 <div className="flex -space-x-3 transition-all duration-300">
-                    {realVisitors.length === 0 && (
+                    {allVisitors.length === 0 && (
                         <div className="text-xs text-white/20 italic ml-1">
                             Detecting visitors...
                         </div>
                     )}
 
-                    {realVisitors.map((person, i) => (
+                    {allVisitors.map((person, i) => (
                         <motion.div
                             key={person.name}
                             initial={{ x: -20, opacity: 0 }}
@@ -116,8 +159,8 @@ export default function VisitorStack() {
                             </div>
 
                             <motion.div
-                                className={`relative w-11 h-11 rounded-full border-2 border-deep-bg overflow-hidden bg-gray-900 ring-1 ${person.name === "You" ? 'ring-sage shadow-[0_0_20px_rgba(178,172,136,0.3)]' : 'ring-white/10'}`}
-                                whileHover={{ scale: 1.15, zIndex: 10, y: -5 }}
+                                className={`relative w-11 h-11 rounded-full border-2 border-deep-bg overflow-hidden bg-gray-900 ring-1 ${person.name === "You" ? 'ring-sage shadow-[0_0_20px_rgba(178,172,136,0.3)]' : 'ring-white/10'} ${person.is_historical ? 'grayscale-[0.5] opacity-60' : ''}`}
+                                whileHover={{ scale: 1.15, zIndex: 10, y: -5, filter: "grayscale(0)", opacity: 1 }}
                             >
                                 <Image
                                     src={person.src}
@@ -130,15 +173,15 @@ export default function VisitorStack() {
                     ))}
                 </div>
 
-                {realVisitors.length > 0 && (
+                {allVisitors.length > 0 && (
                     <div className="ml-5 flex flex-col">
                         <div className="flex items-center gap-2">
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage opacity-75"></span>
+                                <span className={`absolute inline-flex h-full w-full rounded-full bg-sage opacity-75 ${realVisitors.length > 1 ? 'animate-ping' : ''}`}></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-sage"></span>
                             </span>
                             <span className="text-sm font-medium text-white/80">
-                                {realVisitors.length} live now
+                                {realVisitors.length} online
                             </span>
                         </div>
                     </div>

@@ -39,7 +39,7 @@ export default function Hero() {
                     opacity: 0,
                     duration: 0.8,
                     ease: "power2.out"
-                }, "-=0.8")
+                }, "-=1.5")
                 .from(".float-widget", {
                     scale: 0.8,
                     opacity: 0,
