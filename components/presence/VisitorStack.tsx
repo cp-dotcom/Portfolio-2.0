@@ -13,9 +13,17 @@ export default function VisitorStack() {
     const [realVisitors, setRealVisitors] = useState<any[]>([]);
 
     useEffect(() => {
-        // Only run if Supabase keys are provided and client is initialized
+        const identity = {
+            name: "You",
+            src: "/images/download-removebg-preview (1).png",
+            online_at: new Date().toISOString()
+        };
+
+        // Show self immediately as a fallback
+        setRealVisitors([identity]);
+
+        // Only run real-time logic if Supabase keys are provided
         if (!supabase || !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-            console.warn("Supabase keys missing or invalid. Real-time presence disabled.");
             return;
         }
 
@@ -37,22 +45,21 @@ export default function VisitorStack() {
                     });
                 });
 
-                // Deduplicate by name for clean UI
-                const unique = flattened.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i);
+                // Deduplicate by name, ensuring "You" stays at the front
+                let unique = flattened.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i);
+
+                // If "You" isn't in the real-time list, add the local identity
+                if (!unique.find(v => v.name === identity.name)) {
+                    unique = [identity, ...unique];
+                }
+
                 setRealVisitors(unique);
             })
             .subscribe(async (status) => {
                 if (status === 'SUBSCRIBED') {
-                    // AUTOMATICALLY detect and track visitor
-                    const identity = {
-                        name: "You", // In real production, get this from Session (NextAuth)
-                        src: "/images/download-removebg-preview (1).png",
-                        online_at: new Date().toISOString()
-                    };
-
                     await channel.track(identity);
 
-                    // Persistent database log (Automatic)
+                    // Persistent database log
                     try {
                         if (supabase) {
                             await supabase
