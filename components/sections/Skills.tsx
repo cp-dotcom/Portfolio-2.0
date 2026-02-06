@@ -52,6 +52,9 @@ const skillIcons = [
   <div className="w-full h-full flex items-center justify-center text-white">
     {SKILL_ICONS.GitHub}
   </div>,
+  <div className="w-full h-full flex items-center justify-center text-[#007FFF]">
+    {SKILL_ICONS.MUI}
+  </div>,
 ];
 
 
@@ -91,4 +94,4 @@ export default function Skills() {
       </div>
     </section>
   );
-    }
+}

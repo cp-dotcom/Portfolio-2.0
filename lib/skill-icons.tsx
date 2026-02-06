@@ -57,5 +57,8 @@ export const SKILL_ICONS = {
     ),
     Shadcn: (
         <img src="/skills/shadcn.png" alt="Shadcn UI" className="w-full h-full object-contain" />
+    ),
+    MUI: (
+        <img src="/skills/mui.png" alt="Material UI" className="w-full h-full object-contain" />
     )
 };
