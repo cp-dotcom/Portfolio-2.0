@@ -20,6 +20,7 @@
     "@react-three/fiber": "^9.4.2",
     "@supabase/supabase-js": "^2.91.0",
     "@use-gesture/react": "^10.3.1",
+    "aos": "^2.3.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.28.1",
     "gsap": "^3.13.0",
@@ -29,6 +30,10 @@
     "next-auth": "^4.24.13",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-parallax-tilt": "^1.7.320",
+    "react-simple-typewriter": "^5.0.1",
+    "react-snowfall": "^2.4.0",
+    "react-tsparticles": "^2.12.2",
     "tailwind-merge": "^3.4.0",
     "three": "^0.181.2"
   },

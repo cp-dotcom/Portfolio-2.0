@@ -6,6 +6,10 @@ import GeometricShapes from "@/components/3d/GeometricShapes";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Box, Code, Globe, Layers, Zap, CheckCircle, CreditCard } from "lucide-react";
+import Snowfall from "react-snowfall";
+
+import { Typewriter } from 'react-simple-typewriter'
+
 
 export default function Hero() {
     const containerRef = useRef<HTMLElement>(null);
@@ -48,6 +52,7 @@ export default function Hero() {
 
     return (
         <section ref={containerRef} className="relative min-h-[110vh] flex flex-col justify-center overflow-hidden bg-deep-bg pt-20">
+            <Snowfall color="rgba(209, 213, 219, 0.3)" />
 
             {/* Massive Watermark Text */}
             <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none z-0">
@@ -67,7 +72,7 @@ export default function Hero() {
 
 
                     <h2 className="text-5xl md:text-7xl font-bold font-display leading-tight ">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-300/10 to-sage">YOUR VISION</span>  <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-300/10 to-sage"> YOUR VISION</span>  <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-sage to-black/10">
                             MY MISSION
                         </span> <br />

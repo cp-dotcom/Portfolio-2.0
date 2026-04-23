@@ -51,6 +51,16 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     onMenuClose
 }: StaggeredMenuProps) => {
     const [open, setOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
     const openRef = useRef(false);
 
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -409,7 +419,11 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 </div>
 
                 <header
-                    className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[2em] bg-transparent pointer-events-none z-20"
+                    className={`staggered-menu-header fixed left-1/2 -translate-x-1/2 flex items-center justify-between transition-all duration-500 ease-in-out pointer-events-none z-20 ${scrolled
+                        // ? "top-4 w-[90%] md:w-auto md:min-w-[500px] bg-black/20 backdrop-blur-md px-8 py-3 rounded-full shadow-lg"
+                        ? "top-4 w-[90%] bg-transparent px-[2em] py-[2em] bg-black/20 backdrop-blur-md px-8 py-3 rounded-full shadow-lg"
+                        : "top-0 w-full bg-transparent px-[2em] py-[2em]"
+                        }`}
                     aria-label="Main navigation header"
                 >
                     <div className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo">
@@ -531,8 +545,6 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
             <style jsx global>{`
 .sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; }
-.sm-scope .staggered-menu-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 2em; background: transparent; pointer-events: none; z-index: 20; }
-.sm-scope .staggered-menu-header > * { pointer-events: auto; }
 .sm-scope .sm-logo { display: flex; align-items: center; user-select: none; }
 .sm-scope .sm-logo-img { display: block; height: 32px; width: auto; object-fit: contain; }
 .sm-scope .sm-toggle { position: relative; display: inline-flex; align-items: center; gap: 0.3rem; background: transparent; border: none; cursor: pointer; color: #e9e9ef; font-weight: 500; line-height: 1; overflow: visible; }

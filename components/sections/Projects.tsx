@@ -6,11 +6,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Github } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import Tilt from "react-parallax-tilt";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-    
+
     {
         title: "POS System",
         category: "Desktop Application (Live Project)",
@@ -19,7 +20,7 @@ const projects = [
         image: "/images/Gemini_Generated_Image_ydh00bydh00bydh0.png",
         href: "#",
     },
-     {
+    {
         title: "ZipRide",
         category: "Ride Architect App",
         description: "Instant ride booking application with multilingual support, GSAP animations, and Redux state management. Collaborative Git workflow.",
@@ -35,7 +36,7 @@ const projects = [
         image: "/images/plant_store_mockup.png",
         href: "#",
     },
-   
+
     {
         title: "E-Commerce App",
         category: "Full Stack Web App",
@@ -78,6 +79,7 @@ export default function Projects() {
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
                     {projects.map((project, index) => (
                         <div
                             key={index}
@@ -102,7 +104,7 @@ export default function Projects() {
                                         <span className="text-sage text-xs font-bold uppercase tracking-wider">{project.category}</span>
                                         <h3 className="text-2xl font-bold font-display mt-1 group-hover:text-white transition-colors">{project.title}</h3>
                                     </div>
-                                   
+
                                 </div>
 
                                 <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
